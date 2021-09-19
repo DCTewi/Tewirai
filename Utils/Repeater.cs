@@ -1,4 +1,4 @@
-﻿using Tewirai.Logging;
+using Tewirai.Logging;
 
 namespace Tewirai.Utils
 {
@@ -10,7 +10,7 @@ namespace Tewirai.Utils
             {
                 if (!Program.AppConfig.Repeater.AllowedUser.Contains(e.SenderInfo.UserId))
                 {
-                    Logger<Repeater>.LogWarning($"User [{e.SenderInfo.UserId}] don't have the permission!");
+                    //Logger<Repeater>.LogWarning($"User [{e.SenderInfo.UserId}] don't have the permission!");
                     return;
                 }
 

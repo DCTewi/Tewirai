@@ -1,10 +1,14 @@
 {
   "CqCore": {
     "WorkingDirectory": "D:\\OneDrive\\Develop\\Solutions\\Tewirai\\CqCore\\Go-CqHttp\\",
-    "ExcutableName": "go-cqhttp-v0.9.38-windows-amd64.exe",
+    "ExcutableName": "go-cqhttp.exe",
     "WsListenPort": 9001
   },
   "Repeater": {
+    "AllowedGroup": [],
+    "AllowedUser": []
+  },
+  "ExpressManager": {
     "AllowedGroup": [],
     "AllowedUser": []
   }
