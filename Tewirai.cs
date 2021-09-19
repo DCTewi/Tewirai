@@ -13,7 +13,7 @@ using Sora.OnebotModel;
 
 using Tewirai.Logging;
 using Tewirai.Models;
-using Tewirai.Utils;
+using Tewirai.Plugins;
 namespace Tewirai
 {
     public class Tewirai : IDisposable
@@ -78,6 +78,11 @@ namespace Tewirai
             Logger<Tewirai>.LogInfo("正在启动CQ Core");
             try
             {
+                foreach (var process in Process.GetProcessesByName(Path.GetFileNameWithoutExtension(_config.CqCore.ExcutableName)))
+                {
+                    process.Kill();
+                }
+
                 _cqProcess = new Process();
                 _cqProcess.StartInfo.WorkingDirectory = _config.CqCore.WorkingDirectory;
                 _cqProcess.StartInfo.UseShellExecute = false;

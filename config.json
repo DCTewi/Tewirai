@@ -6,10 +6,10 @@
   },
   "Repeater": {
     "AllowedGroup": [],
-    "AllowedUser": [ 983541507 ]
+    "AllowedUser": []
   },
-  "ExpressManager": {
-    "AllowedGroup": [],
+  "Lottery": {
+    "AllowedGroup": [ ],
     "AllowedUser": []
   }
 }

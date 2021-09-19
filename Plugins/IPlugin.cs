@@ -1,4 +1,4 @@
-﻿namespace Tewirai.Utils
+﻿namespace Tewirai.Plugins
 {
     public interface IPlugin
     {
