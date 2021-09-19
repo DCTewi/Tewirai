@@ -11,7 +11,7 @@ namespace Tewirai.Models
     {
         public CqCoreConfig CqCore { get; set; } = new CqCoreConfig
         {
-            WorkingDirectory = ".",
+            WorkingDirectory = "cqcore",
             ExcutableName = "go-cqhttp",
             WsListenPort = 9001
         };
