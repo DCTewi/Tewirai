@@ -28,12 +28,12 @@ namespace Tewirai
 
         public static ISoraService Service => Instance._service;
 
-        public static Configuration Config => Instance._config;
+        public static Configuration Config => Instance.GetOrCreateAppConfig();
 
         private Tewirai() { }
 
         private ISoraService _service;
-        private Configuration _config;
+        private Configuration _configCache;
         private Process _cqProcess;
 
         public async Task RunAsync()
@@ -67,7 +67,7 @@ namespace Tewirai
             Logger<Tewirai>.LogInfo("正在启动Sora Server");
             var serverConfig = new ServerConfig
             {
-                Port = _config.CqCore.WsListenPort,
+                Port = _configCache.CqCore.WsListenPort,
             };
 
             _service = SoraServiceFactory.CreateInstance(serverConfig);
@@ -78,15 +78,15 @@ namespace Tewirai
             Logger<Tewirai>.LogInfo("正在启动CQ Core");
             try
             {
-                foreach (var process in Process.GetProcessesByName(Path.GetFileNameWithoutExtension(_config.CqCore.ExcutableName)))
+                foreach (var process in Process.GetProcessesByName(Path.GetFileNameWithoutExtension(_configCache.CqCore.ExcutableName)))
                 {
                     process.Kill();
                 }
 
                 _cqProcess = new Process();
-                _cqProcess.StartInfo.WorkingDirectory = _config.CqCore.WorkingDirectory;
+                _cqProcess.StartInfo.WorkingDirectory = _configCache.CqCore.WorkingDirectory;
                 _cqProcess.StartInfo.UseShellExecute = false;
-                _cqProcess.StartInfo.FileName = Path.Combine(_config.CqCore.WorkingDirectory, _config.CqCore.ExcutableName);
+                _cqProcess.StartInfo.FileName = Path.Combine(_configCache.CqCore.WorkingDirectory, _configCache.CqCore.ExcutableName);
 
                 _cqProcess.Start();
             }
@@ -96,19 +96,30 @@ namespace Tewirai
             }
         }
 
-        private void GetOrCreateAppConfig()
+        private Configuration GetOrCreateAppConfig()
         {
-            Logger<Tewirai>.LogInfo("正在加载配置文件");
             if (!File.Exists(@"config.json"))
             {
                 var json = JsonConvert.SerializeObject(new Configuration(), Formatting.Indented);
 
                 File.WriteAllText(@"config.json", json);
 
-                Logger<Tewirai>.LogFatal("未找到配置文件, 已经重新生成配置文件, 请修改后重启");
+                Logger<Tewirai>.LogWarning("未找到配置文件, 已经重新生成配置文件");
             }
 
-            _config = JsonConvert.DeserializeObject<Configuration>(File.ReadAllText(@"config.json"));
+            try
+            {
+                _configCache = JsonConvert.DeserializeObject<Configuration>(File.ReadAllText(@"config.json"));
+            }
+            catch
+            {
+                _configCache = new Configuration();
+
+                File.WriteAllText(@"config.json", JsonConvert.SerializeObject(_configCache, Formatting.Indented));
+                Logger<Tewirai>.LogWarning("配置文件不正确, 已经重新生成配置文件");
+            }
+
+            return _configCache;
         }
 
         public void Dispose()
