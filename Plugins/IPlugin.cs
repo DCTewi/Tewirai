@@ -1,6 +1,6 @@
 ﻿namespace Tewirai.Utils
 {
-    public interface IUtil
+    public interface IPlugin
     {
         void StartUp();
     }

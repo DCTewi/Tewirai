@@ -6,7 +6,7 @@
   },
   "Repeater": {
     "AllowedGroup": [],
-    "AllowedUser": []
+    "AllowedUser": [ 983541507 ]
   },
   "ExpressManager": {
     "AllowedGroup": [],

@@ -2,7 +2,7 @@
 
 namespace Tewirai.Models
 {
-    public class UtilConfig
+    public struct PluginConstraintor
     {
         public List<long> AllowedGroup;
         public List<long> AllowedUser;
